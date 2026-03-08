@@ -58,27 +58,24 @@ const categories = [
   },
 ];
 
-const whyChooseUs = [
+const testimonials = [
   {
-    title: 'Verified Listings',
-    description: 'Every property is verified by our team to ensure authenticity and accuracy.',
-    icon: BadgeCheck,
-    color: 'text-emerald-500',
-    bg: 'bg-emerald-50',
+    name: 'Priya Sharma',
+    role: 'Homebuyer in Mumbai',
+    quote: 'Found my dream apartment in Bandra within a week. The verified listings gave me so much peace of mind.',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
   },
   {
-    title: 'Direct Owner Contact',
-    description: 'Connect directly with property owners — no middlemen, no brokerage.',
-    icon: Phone,
-    color: 'text-blue-500',
-    bg: 'bg-blue-50',
+    name: 'Rahul Desai',
+    role: 'Property Investor',
+    quote: 'The direct owner contact feature saved me lakhs in brokerage fees. Easily the best platform out there.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
   },
   {
-    title: 'Smart Map Search',
-    description: 'Find properties in your preferred neighborhood using our interactive map.',
-    icon: MapPinned,
-    color: 'text-[#E53935]',
-    bg: 'bg-red-50',
+    name: 'Anita Patel',
+    role: 'Rented in Bangalore',
+    quote: 'The smart map search helped me find a place exactly 5 minutes from my new office. Highly recommended!',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
   },
 ];
 
@@ -99,8 +96,8 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
-            alt="City skyline"
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
+            alt="Welcoming modern home"
             className="w-full h-full object-cover"
           />
           <div className="hero-gradient absolute inset-0" />
@@ -245,41 +242,47 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ===== WHY CHOOSE US ===== */}
+      {/* ===== TESTIMONIALS (SOCIAL PROOF) ===== */}
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div {...fadeInUp} className="text-center mb-12">
             <span className="inline-block px-4 py-1.5 bg-red-50 text-[#E53935] text-sm font-semibold rounded-full mb-4">
-              ✨ Why Makan Kharido?
+              ✨ Trusted by Homeowners
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-[#111]" style={{ fontFamily: 'var(--font-poppins)' }}>
-              Why Choose Us
+              Hear From Our Customers
             </h2>
             <p className="text-gray-500 mt-3 max-w-lg mx-auto">
-              We make finding your perfect property simple, secure, and transparent
+              Real stories from people who found their perfect property with us
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {whyChooseUs.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.15 }}
-                  className="text-center p-8 rounded-2xl hover:shadow-lg hover:-translate-y-1 transition-all duration-500"
-                >
-                  <div className={`w-16 h-16 ${item.bg} rounded-2xl flex items-center justify-center mx-auto mb-5`}>
-                    <Icon className={`w-8 h-8 ${item.color}`} />
+            {testimonials.map((testimonial, i) => (
+              <motion.div
+                key={testimonial.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className="p-8 rounded-2xl border border-gray-100 bg-gray-50 hover:shadow-lg hover:-translate-y-1 transition-all duration-500"
+              >
+                <p className="text-gray-600 mb-6 italic leading-relaxed">
+                  "{testimonial.quote}"
+                </p>
+                <div className="flex items-center gap-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="font-bold text-[#111] leading-tight">{testimonial.name}</h4>
+                    <span className="text-sm text-gray-500">{testimonial.role}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-[#111] mb-3">{item.title}</h3>
-                  <p className="text-gray-500 leading-relaxed">{item.description}</p>
-                </motion.div>
-              );
-            })}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

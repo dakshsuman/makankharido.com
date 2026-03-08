@@ -109,8 +109,8 @@ function SearchPageContent() {
                     <div className={`${showMap ? 'flex-1 min-w-0' : 'w-full'}`}>
                         {filteredProperties.length > 0 ? (
                             <div className={`grid gap-6 ${showMap
-                                    ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
-                                    : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                                ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
+                                : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                                 }`}>
                                 {filteredProperties.map((property, i) => (
                                     <PropertyCard key={property.id} property={property} index={i} />
@@ -143,13 +143,38 @@ function SearchPageContent() {
     );
 }
 
+function SearchSkeleton() {
+    return (
+        <div className="bg-[#F8F9FA] min-h-screen">
+            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-24">
+                <div className="h-8 w-48 bg-gray-200 rounded-lg animate-pulse mb-6"></div>
+                <div className="flex gap-6">
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="bg-white rounded-2xl p-4 border border-gray-100 flex flex-col gap-4 animate-pulse">
+                                <div className="aspect-[4/3] bg-gray-200 rounded-xl w-full"></div>
+                                <div className="space-y-3">
+                                    <div className="h-5 bg-gray-200 rounded-md w-3/4"></div>
+                                    <div className="h-4 bg-gray-200 rounded-md w-1/2"></div>
+                                </div>
+                                <div className="mt-auto flex gap-4 border-t border-gray-50 pt-3">
+                                    <div className="h-4 bg-gray-200 rounded-md w-10"></div>
+                                    <div className="h-4 bg-gray-200 rounded-md w-10"></div>
+                                    <div className="h-4 bg-gray-200 rounded-md w-20"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="hidden lg:block w-[40%] max-w-[600px] bg-gray-200 rounded-2xl animate-pulse h-[800px]"></div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function SearchPage() {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin w-8 h-8 border-3 border-[#E53935] border-t-transparent rounded-full" />
-            </div>
-        }>
+        <Suspense fallback={<SearchSkeleton />}>
             <SearchPageContent />
         </Suspense>
     );

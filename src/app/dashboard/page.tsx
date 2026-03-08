@@ -23,7 +23,14 @@ export default function DashboardPage() {
 
     const stats = [
         { label: 'Active Listings', value: '4', icon: Building2, color: 'text-blue-500', bg: 'bg-blue-50' },
-        { label: 'Total Views', value: '2,847', icon: Eye, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+        {
+            label: 'Total Views',
+            value: '2,847',
+            icon: Eye,
+            color: 'text-emerald-500',
+            bg: 'bg-emerald-50',
+            trend: [20, 35, 25, 45, 30, 60, 85] // Data points for the sparkline
+        },
         { label: 'Inquiries', value: '36', icon: Users, color: 'text-amber-500', bg: 'bg-amber-50' },
         { label: 'Saved', value: savedProperties.length.toString(), icon: Heart, color: 'text-[#E53935]', bg: 'bg-red-50' },
     ];
@@ -57,15 +64,38 @@ export default function DashboardPage() {
                                 key={stat.label}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-white rounded-2xl p-5 border border-gray-100"
+                                className="bg-white rounded-2xl p-5 border border-gray-100 relative overflow-hidden flex flex-col justify-between"
                             >
-                                <div className="flex items-center justify-between mb-3">
-                                    <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center`}>
-                                        <Icon className={`w-5 h-5 ${stat.color}`} />
+                                <div>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center relative z-10`}>
+                                            <Icon className={`w-5 h-5 ${stat.color}`} />
+                                        </div>
                                     </div>
+                                    <div className="text-2xl font-bold text-[#111] relative z-10">{stat.value}</div>
+                                    <div className="text-sm text-gray-500 mt-0.5 relative z-10">{stat.label}</div>
                                 </div>
-                                <div className="text-2xl font-bold text-[#111]">{stat.value}</div>
-                                <div className="text-sm text-gray-500 mt-0.5">{stat.label}</div>
+
+                                {/* Background Sparkline for Total Views */}
+                                {stat.trend && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none">
+                                        <svg viewBox="0 0 100 40" className="w-full h-full" preserveAspectRatio="none">
+                                            <path
+                                                d={`M0,40 ${stat.trend.map((val, i) => `L${(i / (stat.trend!.length - 1)) * 100},${40 - (val / 100) * 40}`).join(' ')} L100,40 Z`}
+                                                fill="#10b981"
+                                                opacity="0.2"
+                                            />
+                                            <path
+                                                d={`M0,${40 - (stat.trend[0] / 100) * 40} ${stat.trend.map((val, i) => `L${(i / (stat.trend!.length - 1)) * 100},${40 - (val / 100) * 40}`).join(' ')}`}
+                                                fill="none"
+                                                stroke="#10b981"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
                             </motion.div>
                         );
                     })}
@@ -80,8 +110,8 @@ export default function DashboardPage() {
                                 key={tab.label}
                                 onClick={() => setActiveTab(i)}
                                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${activeTab === i
-                                        ? 'bg-[#111] text-white'
-                                        : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                    ? 'bg-[#111] text-white'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                                     }`}
                             >
                                 <Icon className="w-4 h-4" />
